@@ -5,6 +5,6 @@ Discord bot, name to be determined.
 ## Building
 
 ```sh
-git clone https://github.com/endoffile78/bot
+git clone https://github.com/endoffile78/discord-bot
 make
 ```
