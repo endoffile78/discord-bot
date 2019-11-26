@@ -3,6 +3,7 @@ package commands
 import (
 	"strings"
 
+	"github.com/endoffile78/bot/src/config"
 	"github.com/skwair/harmony"
 )
 
@@ -15,8 +16,7 @@ type Command struct {
 }
 
 var (
-	CMD_PREFIX = "!"
-	commands   = []Command{
+	commands = []Command{
 		Command{
 			cmd:      "ping",
 			function: ping,
@@ -31,7 +31,8 @@ var (
 )
 
 func CommandParse(message string) (string, []string) {
-	if !strings.HasPrefix(message, CMD_PREFIX) {
+	prefix := config.ConfigGet("Bot", "prefix")
+	if !strings.HasPrefix(message, prefix) {
 		return "", nil
 	}
 
@@ -40,10 +41,10 @@ func CommandParse(message string) (string, []string) {
 
 	spaceIndex := strings.Index(message, " ")
 	if spaceIndex > 0 {
-		cmd = message[len(CMD_PREFIX):spaceIndex]
+		cmd = message[len(prefix):spaceIndex]
 		args = strings.Split(message, " ")[1:]
 	} else {
-		cmd = message[len(CMD_PREFIX):]
+		cmd = message[len(prefix):]
 	}
 
 	return cmd, args
