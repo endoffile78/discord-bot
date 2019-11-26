@@ -22,6 +22,11 @@ var (
 			function: ping,
 			admin:    false,
 		},
+		Command{
+			cmd:      "roll",
+			function: roll,
+			admin:    false,
+		},
 	}
 )
 
