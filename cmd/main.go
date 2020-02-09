@@ -37,10 +37,7 @@ func main() {
 		return
 	}
 
-	bot := bot.Bot{
-		Client: client,
-	}
-
+	bot := bot.NewBot(client)
 	client.OnMessageCreate(bot.OnNewMessage)
 
 	if err = client.Connect(context.Background()); err != nil {

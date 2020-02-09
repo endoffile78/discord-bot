@@ -3,7 +3,6 @@ package commands
 import (
 	"strings"
 
-	"github.com/endoffile78/bot/src/config"
 	"github.com/skwair/harmony"
 )
 
@@ -30,8 +29,7 @@ var (
 	}
 )
 
-func CommandParse(message string) (string, []string) {
-	prefix := config.ConfigGet("Bot", "prefix")
+func CommandParse(prefix string, message string) (string, []string) {
 	if !strings.HasPrefix(message, prefix) {
 		return "", nil
 	}
