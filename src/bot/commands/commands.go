@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/andersfylling/disgord"
@@ -26,13 +25,14 @@ var (
 )
 
 func CommandParse(prefix string, message string) (string, []string) {
-	fmt.Println(strings.HasPrefix(message, prefix))
 	if !strings.HasPrefix(message, prefix) {
 		return "", nil
 	}
 
 	cmd := ""
 	var args []string = nil
+
+	message = strings.TrimSpace(message)
 
 	spaceIndex := strings.Index(message, " ")
 	if spaceIndex > 0 {
