@@ -1,12 +1,13 @@
 package commands
 
 import (
+	"fmt"
 	"strings"
 
-	"github.com/skwair/harmony"
+	"github.com/andersfylling/disgord"
 )
 
-type CommandFunction func(args []string, channel *harmony.ChannelResource)
+type CommandFunction func(args []string, msg *disgord.Message, session disgord.Session)
 
 type Command struct {
 	cmd      string
@@ -21,15 +22,11 @@ var (
 			function: ping,
 			admin:    false,
 		},
-		Command{
-			cmd:      "roll",
-			function: roll,
-			admin:    false,
-		},
 	}
 )
 
 func CommandParse(prefix string, message string) (string, []string) {
+	fmt.Println(strings.HasPrefix(message, prefix))
 	if !strings.HasPrefix(message, prefix) {
 		return "", nil
 	}
@@ -48,10 +45,10 @@ func CommandParse(prefix string, message string) (string, []string) {
 	return cmd, args
 }
 
-func CommandRun(cmd string, args []string, channel *harmony.ChannelResource) {
+func CommandRun(cmd string, args []string, msg *disgord.Message, session disgord.Session) {
 	for _, command := range commands {
 		if command.cmd == cmd {
-			command.function(args, channel)
+			command.function(args, msg, session)
 			break
 		}
 	}

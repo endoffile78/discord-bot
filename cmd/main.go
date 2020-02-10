@@ -1,15 +1,12 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
-	"os"
-	"os/signal"
 
+	"github.com/andersfylling/disgord"
 	"github.com/endoffile78/bot/src/bot"
 	"github.com/endoffile78/bot/src/config"
-	"github.com/skwair/harmony"
 )
 
 var (
@@ -23,37 +20,19 @@ func init() {
 func main() {
 	flag.Parse()
 
-	fmt.Println("Starting bot...")
-
 	err := config.ConfigLoad(configFile)
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	client, err := harmony.NewClient(config.ConfigGet("Discord", "token"))
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
 		return
 	}
+
+	client := disgord.New(disgord.Config{
+		BotToken: config.ConfigGet("Discord", "token"),
+	})
 
 	bot := bot.NewBot(client)
-	client.OnMessageCreate(bot.OnNewMessage)
+	bot.Run()
 
-	if err = client.Connect(context.Background()); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-
-	fmt.Println("Bot started")
-
-	defer client.Disconnect()
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt)
-	<-sig
-
+	fmt.Println("Saving to", configFile)
 	config.ConfigSave(configFile)
-
-	fmt.Println("Shutting down bot...")
 }
