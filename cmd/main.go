@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/andersfylling/disgord"
-	"github.com/endoffile78/bot/src/bot"
-	"github.com/endoffile78/bot/src/config"
+	"github.com/endoffile78/bot/bot"
+	"github.com/endoffile78/bot/config"
 )
 
 var (
